@@ -22,6 +22,9 @@ library(readr) # importar
 library(dplyr) # limpeza
 library(quantmod) # time series
 library(stargazer) # tabela
+library(doParallel)
+library(gganimate)
+library(transformr)
 ```
 
 
@@ -84,14 +87,14 @@ arma[["MA(0)"]] <- NULL # retirar MA(0)
 
 #### report ####
 
-# cria a função que reporta as regressões
+# cria a funcao que reporta as regressoes
 
 tabela_regressoes <- function(lista_regressoes) {
   
-  # cria a lista com os nomes das regressões
+  # cria a lista com os nomes das regressoes
   nomes <- sapply(lista_regressoes, function(x) deparse(substitute(x)))
   
-  # cria a tabela com as regressões
+  # cria a tabela com as regressoes
   stargazer(lista_regressoes, 
             title = "(a) estimated coefficients, standard errors and p-values",
             type = "latex",
@@ -138,8 +141,60 @@ table <- stargazer(result_matrix,
 
 cat("\n")
 ```
+
+## Question 2 (ARMA(p,q) MLE Estimator's Asymptotic Behavior - 200 points
+
+```{r}
+#### Parameters ####
+
+# fixos
+
+M <- 10 # Number of MC repetitions
+
+capT_vec <- c(30:100, seq(110, 200, 10), seq(250, 500, 50)) # Length of the time series
+
+delta <- c(0.25, 0.2, 0.15, 0.1) # Allowed distance for convergence in probability
+
 ```
 
+```{r}
+
+# ler as funcoes criadas para rodar os experimentos de monte carlo
+
+source('funcos_MC.R')
+```
+
+
+### 2.1 MA(1), c = 0, theta = 0.5
+
+#### N(0,1)
+
+```{r}
+MA1_N <- monte_carlo_ARMA(p = 0, 
+                 q = 1, 
+                 g = 1, 
+                 theta = 0.5, 
+                 c = FALSE)
+
+convergence_probability(MA1_N)
+convergence_distribution(MA1_N)
+```
+
+#### exp(1)
+
+```{r}
+MA1_exp <- monte_carlo_ARMA(p = 0, 
+                 q = 1, 
+                 g = 0, 
+                 theta = 0.5, 
+                 c = FALSE)
+
+convergence_probability(MA1_exp)
+
+```
+
+
+### 2.2 
 
 
 
