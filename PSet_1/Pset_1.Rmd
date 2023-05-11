@@ -1,0 +1,145 @@
+---
+title: "Problem Set 1"
+author: "Izabel Flores"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+    
+---
+
+```{r setup, warning = FALSE, message = FALSE, error = FALSE, echo = FALSE}
+
+knitr::opts_chunk$set(warning = FALSE, 
+                      message = FALSE, 
+                      error = FALSE,
+                      echo = FALSE)
+```
+
+```{r}
+#### PSET 1 ####
+
+library(readr) # importar
+library(dplyr) # limpeza
+library(quantmod) # time series
+library(stargazer) # tabela
+```
+
+
+## Question 1 (Forecasting GDP Growth - 150 points)
+
+```{r}
+# importando
+
+data <- read_csv("Problem Set 1/data/data_gdp_brazil.csv")
+
+# limpando
+
+colnames(data) <- c("year", "gdp_brazil") # renomear colunas
+
+data_xts <- xts( # objeto xts
+  x = data$gdp_brazil,
+  order.by = as.Date(as.character(data$year), format = "%Y")
+)
+
+# Parameters
+
+P <- 2 # parametro maximo do AR
+Q <- 2 # parametro maximo do MA
+
+alpha <- 0.05 # Significance level
+
+```
+
+```{r}
+# estimando
+
+arma <- vector(mode = "list", length = 0)
+
+# Loop through all combinations of p and q
+
+for (p in 0:P) {
+  for (q in 0:Q) {
+    # Define the name of the element based on p and q
+    name <- if (p == 0) {
+      paste0("MA(", q, ")")
+    } else if (q == 0) {
+      paste0("AR(", p, ")")
+    } else {
+      paste0("ARMA(", p, ",", q, ")")
+    }
+    # Estimate an ARMA(p,q) model and store it in the corresponding element
+    arma[[name]] <- arima(
+      x = data_xts,
+      order = c(p, 0, q),
+      include.mean = TRUE
+    )
+  }
+}
+
+arma[["MA(0)"]] <- NULL # retirar MA(0)
+
+```
+
+```{r}
+
+#### report ####
+
+# cria a função que reporta as regressões
+
+tabela_regressoes <- function(lista_regressoes) {
+  
+  # cria a lista com os nomes das regressões
+  nomes <- sapply(lista_regressoes, function(x) deparse(substitute(x)))
+  
+  # cria a tabela com as regressões
+  stargazer(lista_regressoes, 
+            title = "(a) estimated coefficients, standard errors and p-values",
+            type = "latex",
+            column.labels = names(lista_regressoes),
+            header = FALSE,
+            keep.stat = c("n"),
+            font.size= "small",
+            model.numbers = FALSE)
+}
+
+
+```
+
+```{r, results='asis'} 
+# chama a funcao
+
+table <- tabela_regressoes(arma)
+
+cat("\n")
+```
+
+```{r}
+#### BIC e AIC ####
+
+# criar matriz vazia para armazenar resultados
+result_matrix <- matrix(nrow = 2, ncol = length(arma), dimnames = list(c("AIC", "BIC"), names(arma)))
+
+# calcular AIC e BIC para cada modelo
+for (i in seq_along(arma)) {
+  result_matrix["AIC", names(arma)[i]] <- AIC(arma[[i]])
+  result_matrix["BIC", names(arma)[i]] <- BIC(arma[[i]])
+}
+
+```
+
+```{r, results='asis'} 
+
+# imprimir matriz de resultados
+
+table <- stargazer(result_matrix, 
+                   type = "latex",  
+                   header = FALSE,
+                   title = "(b) Estimated BIC and AIC")
+
+cat("\n")
+```
+```
+
+
+
+
