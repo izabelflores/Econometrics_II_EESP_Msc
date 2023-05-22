@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.22)  11 MAY 2023 01:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.22)  11 MAY 2023 02:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -417,49 +417,98 @@ Overfull \hbox (30.02428pt too wide) in paragraph at lines 115--124
  [][] 
  []
 
-<Pset_1_files/figure-latex/unnamed-chunk-10-1.pdf, id=20, 469.755pt x 325.215pt>
-File: Pset_1_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file (type pdf)
-<use Pset_1_files/figure-latex/unnamed-chunk-10-1.pdf>
-Package pdftex.def Info: Pset_1_files/figure-latex/unnamed-chunk-10-1.pdf  used on input line 137.
+<Pset_1_files/figure-latex/unnamed-chunk-11-1.pdf, id=20, 469.755pt x 325.215pt>
+File: Pset_1_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (type pdf)
+<use Pset_1_files/figure-latex/unnamed-chunk-11-1.pdf>
+Package pdftex.def Info: Pset_1_files/figure-latex/unnamed-chunk-11-1.pdf  used on input line 138.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+<Pset_1_files/figure-latex/unnamed-chunk-11-2.pdf, id=21, 469.755pt x 325.215pt>
+File: Pset_1_files/figure-latex/unnamed-chunk-11-2.pdf Graphic file (type pdf)
+<use Pset_1_files/figure-latex/unnamed-chunk-11-2.pdf>
+Package pdftex.def Info: Pset_1_files/figure-latex/unnamed-chunk-11-2.pdf  used on input line 139.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (42.63727pt too wide) in paragraph at lines 137--138
- []\T1/lmr/bx/n/10 N(0,1)[] [] 
+Underfull \hbox (badness 10000) in paragraph at lines 138--140
+[][]
  []
 
 [1
 
-{c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<Pset_1_files/figure-latex/unnamed-chunk-11-1.pdf, id=41, 469.755pt x 325.215pt>
-File: Pset_1_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (type pdf)
-<use Pset_1_files/figure-latex/unnamed-chunk-11-1.pdf>
-Package pdftex.def Info: Pset_1_files/figure-latex/unnamed-chunk-11-1.pdf  used on input line 142.
+{c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2 <./Pset_1_files/figure-latex/unnamed-chunk-11-1.pdf>]
+<Pset_1_files/figure-latex/unnamed-chunk-12-1.pdf, id=53, 469.755pt x 325.215pt>
+File: Pset_1_files/figure-latex/unnamed-chunk-12-1.pdf Graphic file (type pdf)
+<use Pset_1_files/figure-latex/unnamed-chunk-12-1.pdf>
+Package pdftex.def Info: Pset_1_files/figure-latex/unnamed-chunk-12-1.pdf  used on input line 141.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+<Pset_1_files/figure-latex/unnamed-chunk-12-2.pdf, id=54, 469.755pt x 325.215pt>
+File: Pset_1_files/figure-latex/unnamed-chunk-12-2.pdf Graphic file (type pdf)
+<use Pset_1_files/figure-latex/unnamed-chunk-12-2.pdf>
+Package pdftex.def Info: Pset_1_files/figure-latex/unnamed-chunk-12-2.pdf  used on input line 142.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (42.4223pt too wide) in paragraph at lines 142--143
- []\T1/lmr/bx/n/10 exp(1)[] [] 
+Underfull \hbox (badness 10000) in paragraph at lines 141--143
+[][]
  []
 
-[2 <./Pset_1_files/figure-latex/unnamed-chunk-10-1.pdf>] [3 <./Pset_1_files/figure-latex/unnamed-chunk-11-1.pdf>] (./Pset_1.aux)
+[3 <./Pset_1_files/figure-latex/unnamed-chunk-11-2.pdf>] [4 <./Pset_1_files/figure-latex/unnamed-chunk-12-1.pdf>]
+<Pset_1_files/figure-latex/unnamed-chunk-13-1.pdf, id=73, 469.755pt x 325.215pt>
+File: Pset_1_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (type pdf)
+<use Pset_1_files/figure-latex/unnamed-chunk-13-1.pdf>
+Package pdftex.def Info: Pset_1_files/figure-latex/unnamed-chunk-13-1.pdf  used on input line 147.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+<Pset_1_files/figure-latex/unnamed-chunk-13-2.pdf, id=74, 469.755pt x 325.215pt>
+File: Pset_1_files/figure-latex/unnamed-chunk-13-2.pdf Graphic file (type pdf)
+<use Pset_1_files/figure-latex/unnamed-chunk-13-2.pdf>
+Package pdftex.def Info: Pset_1_files/figure-latex/unnamed-chunk-13-2.pdf  used on input line 148.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+<Pset_1_files/figure-latex/unnamed-chunk-13-3.pdf, id=75, 469.755pt x 325.215pt>
+File: Pset_1_files/figure-latex/unnamed-chunk-13-3.pdf Graphic file (type pdf)
+<use Pset_1_files/figure-latex/unnamed-chunk-13-3.pdf>
+Package pdftex.def Info: Pset_1_files/figure-latex/unnamed-chunk-13-3.pdf  used on input line 149.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+<Pset_1_files/figure-latex/unnamed-chunk-13-4.pdf, id=76, 469.755pt x 325.215pt>
+File: Pset_1_files/figure-latex/unnamed-chunk-13-4.pdf Graphic file (type pdf)
+<use Pset_1_files/figure-latex/unnamed-chunk-13-4.pdf>
+Package pdftex.def Info: Pset_1_files/figure-latex/unnamed-chunk-13-4.pdf  used on input line 150.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 147--151
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 147--151
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 147--151
+[]
+ []
+
+[5 <./Pset_1_files/figure-latex/unnamed-chunk-12-2.pdf>]
+Overfull \vbox (25.95663pt too high) has occurred while \output is active []
+
+[6 <./Pset_1_files/figure-latex/unnamed-chunk-13-1.pdf> <./Pset_1_files/figure-latex/unnamed-chunk-13-2.pdf>] [7 <./Pset_1_files/figure-latex/unnamed-chunk-13-3.pdf>] [8 <./Pset_1_files/figure-latex/unnamed-chunk-13-4.pdf>] (./Pset_1.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `Pset_1.out' has not changed.
-(rerunfilecheck)             Checksum: 3B1E5DDF9DC091F71964BF3501CD7C90;1036.
+(rerunfilecheck)             Checksum: 837CBF375F8323C89C157C35A40F9A70;957.
  ) 
 Here is how much of TeX's memory you used:
- 10434 strings out of 480193
- 163963 string characters out of 5891069
- 473536 words of memory out of 5000000
- 28239 multiletter control sequences out of 15000+600000
+ 10475 strings out of 480193
+ 166109 string characters out of 5891069
+ 475463 words of memory out of 5000000
+ 28273 multiletter control sequences out of 15000+600000
  519821 words of font info for 71 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  60i,10n,63p,472b,325s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}<c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi9.pfb><c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb><c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri9.pfb><c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb><c:/Users/izabe/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy9.pfb>
-Output written on Pset_1.pdf (3 pages, 200694 bytes).
+Output written on Pset_1.pdf (8 pages, 234597 bytes).
 PDF statistics:
- 125 PDF objects out of 1000 (max. 8388607)
- 92 compressed objects within 1 object stream
- 18 named destinations out of 1000 (max. 500000)
- 43 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 181 PDF objects out of 1000 (max. 8388607)
+ 130 compressed objects within 2 object streams
+ 19 named destinations out of 1000 (max. 500000)
+ 73 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -22,6 +22,8 @@ library(readr) # importar
 library(dplyr) # limpeza
 library(quantmod) # time series
 library(stargazer) # tabela
+library(ggplot2) # graficos
+library(gridExtra) # apresentacao de graficos
 library(doParallel)
 library(gganimate)
 library(transformr)
@@ -43,7 +45,10 @@ data_xts <- xts( # objeto xts
   x = data$gdp_brazil,
   order.by = as.Date(as.character(data$year), format = "%Y")
 )
+```
 
+
+```{r}
 # Parameters
 
 P <- 2 # parametro maximo do AR
@@ -108,6 +113,8 @@ tabela_regressoes <- function(lista_regressoes) {
 
 ```
 
+
+
 ```{r, results='asis'} 
 # chama a funcao
 
@@ -127,7 +134,6 @@ for (i in seq_along(arma)) {
   result_matrix["AIC", names(arma)[i]] <- AIC(arma[[i]])
   result_matrix["BIC", names(arma)[i]] <- BIC(arma[[i]])
 }
-
 ```
 
 ```{r, results='asis'} 
@@ -142,59 +148,443 @@ table <- stargazer(result_matrix,
 cat("\n")
 ```
 
+
+```{r}
+# forecast
+
+# Criar lista vazia
+lista_previsoes <- list()
+
+# Loop pelos modelos
+for (nome_modelo in names(arma)) {
+  
+  # Obter modelo
+  modelo <- arma[[nome_modelo]]
+  
+  # Fazer previsao
+  previsao <- predict(modelo, n.ahead = 10)
+  
+  # Adicionar previsao a nova lista
+  lista_previsoes[[nome_modelo]] <- previsao
+  
+}
+
+
+```
+
+
+```{r}
+# Criando funcao para gerar graficos
+
+grafico <- function(x){
+  
+  temp <- data.frame(
+    "year" = 2000:2030,
+    "gdp_growth" = c(data$gdp_brazil[data$year %in% 2000:2030],
+                     rep(NA, 10)),
+    "forecast" = c(rep(NA, 21),
+                   lista_previsoes[[x]][["pred"]]),
+    "CI_U" = c(rep(NA, 21), lista_previsoes[[x]][["pred"]] + qnorm(1 - alpha/2) * lista_previsoes[[x]][["se"]]),
+    "CI_L" = c(rep(NA, 21), lista_previsoes[[x]][["pred"]] + qnorm(alpha/2) * lista_previsoes[[x]][["pred"]])
+)
+  
+  gg <- ggplot(data = temp, aes(x = year)) +
+  xlab("Year") + ylab("Yearly GDP Growth (%)") +
+  scale_x_continuous(
+    limits = c(2000, 2031),
+    expand = c(0,0),
+    breaks = seq(from = 2000, to = 2030, by = 5)
+  ) +
+  geom_line(
+    aes(y = gdp_growth, color = "Realized"),
+    size = 1
+  ) +
+  geom_line(
+    aes(y = forecast, color = paste0("Forecast: ", x)),
+    size = 1
+  ) +
+    geom_ribbon(aes(ymin = CI_L, ymax = CI_U), 
+                fill = "#595959",
+                alpha = 0.5
+                ) +
+  geom_hline(yintercept = 0,
+             color = "black",
+             linetype = "dashed",
+             size = 0.5)+
+    
+  scale_colour_manual(values = c(
+    "#1B4965", "#BA0C2F"
+  )) +
+    theme_bw(base_size = 12) +
+  theme(
+    plot.background = element_rect(fill = "white"),
+    legend.title = element_blank(),
+    legend.position = "top", 
+    legend.text = element_text(size = 12, family = "Arial"),
+    plot.margin = unit(c(5, 7, 2, 2), "mm"),
+    axis.text = element_text(family = "Arial"),
+    axis.title = element_text(family = "Arial"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+  
+
+return(gg)
+  
+}
+```
+
+
+```{r}
+q1_im1 <- grid.arrange(grafico("MA(1)"), 
+             grafico("MA(2)"),
+             grafico("AR(1)"),
+             grafico("AR(2)"),
+             
+             ncol = 2)
+
+q1_im2 <- grid.arrange(grafico("ARMA(1,1)"),
+             grafico("ARMA(1,2)"),
+             grafico("ARMA(2,1)"),
+             grafico("ARMA(2,2)"),
+             
+             ncol = 2)
+
+ggsave("q1_im1.png", q1_im1, width = 10, height = 8, dpi = 300)
+ggsave("q1_im2.png", q1_im2, width = 10, height = 8, dpi = 300)
+
+
+```
+
+
+
 ## Question 2 (ARMA(p,q) MLE Estimator's Asymptotic Behavior - 200 points
 
 ```{r}
-#### Parameters ####
 
-# fixos
+#### Parameters fixos ####
 
-M <- 10 # Number of MC repetitions
+# Set seed
+set.seed(18061999)
 
-capT_vec <- c(30:100, seq(110, 200, 10), seq(250, 500, 50)) # Length of the time series
+# Length of the time series
+capT_vec <- c(30:100, seq(110, 200, 10), seq(250, 500, 50))
 
-delta <- c(0.25, 0.2, 0.15, 0.1) # Allowed distance for convergence in probability
+# Number of MC repetitions
+M <- 100
+
+# Allowed distance for convergence in probability
+delta <- c(0.25, 0.2, 0.15, 0.1)
+
+# intercepto
+c <-  0
 
 ```
+
+
+### 1.1
 
 ```{r}
 
-# ler as funcoes criadas para rodar os experimentos de monte carlo
+##### Parameters #####
 
-source('funcos_MC.R')
+p <- 0
+q <- 1
+
+# MA coefficient
+theta <- 0.5
+# RA coefficient
+phi <- 0
+
+# estimador de interesse: 
+
+a <- 2
+  ## se AR ou MA
+# 1 coeficiente
+# 2 intercepto
+
+  ## se ARMA
+# 1 se ar 1
+# 2 se ma 1
+# 3 se intercept
+
+parametro <- 0 # parametro a ser estimado
+            # valor do theta
+            # valor do phi
+            # valor do c
+
+g <- 1 # 1 se normal, 0 se exp
+
+source("funcoes_MC.R")
+
+graficos_norm <- grid.arrange(gg1,
+                           gg2,
+                           gg3,
+                           
+                           ncol = 2)
+
+ggsave("q2_1_norm.png", graficos_norm, width = 12, height = 10, dpi = 300)
+
+g <- 0 # 1 se normal, 0 se exp
+
+source("funcoes_MC.R")
+
+graficos_exp <- grid.arrange(gg1,
+                           gg2,
+                           gg3,
+                           
+                           ncol = 2)
+
+ggsave("q2_1_exp.png", graficos_exp, width = 12, height = 10, dpi = 300)
+
 ```
 
-
-### 2.1 MA(1), c = 0, theta = 0.5
-
-#### N(0,1)
+### 1.2
 
 ```{r}
-MA1_N <- monte_carlo_ARMA(p = 0, 
-                 q = 1, 
-                 g = 1, 
-                 theta = 0.5, 
-                 c = FALSE)
 
-convergence_probability(MA1_N)
-convergence_distribution(MA1_N)
+##### Parameters #####
+
+g <- 1 # 1 se normal, 0 se exp
+p <- 1 
+q <- 0
+
+# MA coefficient
+theta <- 0
+# RA coefficient
+phi <- 0.3
+
+a <- 2 # 1 se ar 1
+# 2 se ma 1
+# 3 se intercept
+
+parametro <- 0 # parametro a ser estimado
+            # valor do theta
+            # valor do phi
+            # valor do c
+
+source("funcoes_MC.R")
+
+graficos_1 <- grid.arrange(gg1,
+                           gg2,
+                           gg3,
+                           
+                           ncol = 2)
+
+ggsave("q2_2_norm.png", graficos_1, width = 12, height = 10, dpi = 300)
+
+g <- 0 # 1 se normal, 0 se exp
+
+source("funcoes_MC.R")
+
+graficos_exp <- grid.arrange(gg1,
+                           gg2,
+                           gg3,
+                           
+                           ncol = 2)
+
+ggsave("q2_2_exp.png", graficos_exp, width = 12, height = 10, dpi = 300)
+
 ```
 
-#### exp(1)
+### 1.3
 
 ```{r}
-MA1_exp <- monte_carlo_ARMA(p = 0, 
-                 q = 1, 
-                 g = 0, 
-                 theta = 0.5, 
-                 c = FALSE)
 
-convergence_probability(MA1_exp)
+##### Parameters #####
+
+g <- 1 # 1 se normal, 0 se exp
+p <- 1 
+q <- 0
+
+# MA coefficient
+theta <- 0
+# RA coefficient
+phi <- 0.3
+
+a <- 1 # 1 se ar 1
+# 2 se ma 1
+# 3 se intercept
+
+parametro <- 0 # parametro a ser estimado
+            # valor do theta
+            # valor do phi
+            # valor do c
+
+source("funcoes_MC.R")
+
+graficos_1 <- grid.arrange(gg1,
+                           gg2,
+                           gg3,
+                           
+                           ncol = 2)
+
+ggsave("q2_3_norm.png", graficos_1, width = 12, height = 10, dpi = 300)
+
+g <- 0 # 1 se normal, 0 se exp
+
+source("funcoes_MC.R")
+
+graficos_exp <- grid.arrange(gg1,
+                           gg2,
+                           gg3,
+                           
+                           ncol = 2)
+
+ggsave("q2_3_exp.png", graficos_exp, width = 12, height = 10, dpi = 300)
+
+```
+
+### 1.4
+
+
+```{r}
+
+##### Parameters #####
+
+g <- 1 # 1 se normal, 0 se exp
+p <- 1 
+q <- 1
+
+# MA coefficient
+theta <- 0.5
+# RA coefficient
+phi <- 0.3
+
+a <- 1 # 1 se ar 1
+# 2 se ma 1
+# 3 se intercept
+
+parametro <- 0 # parametro a ser estimado
+            # valor do theta
+            # valor do phi
+            # valor do c
+
+source("funcoes_MC.R")
+
+graficos_1 <- grid.arrange(gg1,
+                           gg2,
+                           gg3,
+                           
+                           ncol = 2)
+
+ggsave("q2_4_norm.png", graficos_1, width = 12, height = 10, dpi = 300)
+
+g <- 0 # 1 se normal, 0 se exp
+
+source("funcoes_MC.R")
+
+graficos_exp <- grid.arrange(gg1,
+                           gg2,
+                           gg3,
+                           
+                           ncol = 2)
+
+ggsave("q2_4_exp.png", graficos_exp, width = 12, height = 10, dpi = 300)
+
+```
+
+### 1.5
+
+
+```{r}
+
+##### Parameters #####
+
+g <- 1 # 1 se normal, 0 se exp
+p <- 1 
+q <- 1
+
+# MA coefficient
+theta <- 0.5
+# RA coefficient
+phi <- 0.3
+
+a <- 1 # 1 se ar 1
+# 2 se ma 1
+# 3 se intercept
+
+parametro <- 0.3 # parametro a ser estimado
+            # valor do theta
+            # valor do phi
+            # valor do c
+
+source("funcoes_MC.R")
+
+graficos_1 <- grid.arrange(gg1,
+                           gg2,
+                           gg3,
+                           
+                           ncol = 2)
+
+ggsave("q2_5_norm.png", graficos_1, width = 12, height = 10, dpi = 300)
+
+g <- 0 # 1 se normal, 0 se exp
+
+source("funcoes_MC.R")
+
+graficos_exp <- grid.arrange(gg1,
+                           gg2,
+                           gg3,
+                           
+                           ncol = 2)
+
+ggsave("q2_5_exp.png", graficos_exp, width = 12, height = 10, dpi = 300)
+
+```
+
+### 1.6
+
+
+```{r}
+
+##### Parameters #####
+
+g <- 1 # 1 se normal, 0 se exp
+p <- 1 
+q <- 1
+
+# MA coefficient
+theta <- 0.5
+# RA coefficient
+phi <- 0.3
+
+a <- 2 # 1 se ar 1
+# 2 se ma 1
+# 3 se intercept
+
+parametro <- 0.5 # parametro a ser estimado
+            # valor do theta
+            # valor do phi
+            # valor do c
+
+source("funcoes_MC.R")
+
+graficos_1 <- grid.arrange(gg1,
+                           gg2,
+                           gg3,
+                           
+                           ncol = 2)
+
+ggsave("q2_6_norm.png", graficos_1, width = 12, height = 10, dpi = 300)
+
+g <- 0 # 1 se normal, 0 se exp
+
+source("funcoes_MC.R")
+
+graficos_exp <- grid.arrange(gg1,
+                           gg2,
+                           gg3,
+                           
+                           ncol = 2)
+
+ggsave("q2_6_exp.png", graficos_exp, width = 12, height = 10, dpi = 300)
 
 ```
 
 
-### 2.2 
+
+
 
 
 
